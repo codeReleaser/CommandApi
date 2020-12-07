@@ -1,0 +1,19 @@
+RobloxianLife = {}
+RobloxianLife.GamepassId = nil
+
+local plr = game:GetService("Players").LocalPlayer
+
+RobloxianLife.Initialize = function(slf, id)
+    GamepassId = id
+end
+
+RobloxianLife.SetLocalProperty = function(slf, obj, prop, val)
+      if not GamepassId then return end
+      if not obj:IsDescendantOf(plr.Character) then return end
+    if not plr.Backpack:FindFirstChild("PompousTheCloud") then workspace.EquipTool:FireServer(GamepassId, "PompousTheCloud"); plr.Backpack:WaitForChild("PompousTheCloud") end
+    plr.Backpack.PompousTheCloud.Parent = plr.Character
+    plr.Character:WaitForChild("PompousTheCloud"):WaitForChild("ServerControl"):InvokeServer("SetProperty", {["Value"] = val, ["Object"] = obj, ["Property"] = prop})
+    plr.Character.PompousTheCloud.Parent = plr.Backpack
+end
+
+return RobloxianLife
